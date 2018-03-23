@@ -1,0 +1,17 @@
+{
+  "name": "discord-bot-song-trivia",
+  "version": "1.0.0",
+  "main": "bot.js",
+  "scripts": {
+    "start": "nodemon bot.js"
+  },
+  "repository": "https://github.com/hygzhu/discord-bot-song-trivia.git",
+  "author": "Haoyang <hygzhu@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^11.3.2",
+    "ffmpeg-binaries": "^3.2.2-3",
+    "node-opus": "^0.2.7",
+    "nodemon": "^1.17.2"
+  }
+}
