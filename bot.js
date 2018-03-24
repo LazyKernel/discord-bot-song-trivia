@@ -56,8 +56,8 @@ client.on("message", async message => {
     message.channel.send(sayMessage);
   }
 
-  //Adds the bot to the voice channel of whoever called it (Needs to have admin/mod)
-  if(command === "init") {
+  //Adds the bot to the voice channel of whoever called it (Needs to have role mod)
+  if(command === "init" || message.member.roles.some(r=>["Mod"].includes(r.name))) {
     //join the channel of whoever called this command
     trivia.join(message);
   }
