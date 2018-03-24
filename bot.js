@@ -1,6 +1,8 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const config = require("./config.json");
+const trivia = require("./trivia.js");
+
 
 //on startup
 client.on("ready", () => {
@@ -53,23 +55,15 @@ client.on("message", async message => {
     // Repeats the command
     message.channel.send(sayMessage);
   }
-  
-  if(command === "join") {
-    // Get 100 most recent messages
-    const fetched = await message.channel.fetchMessages({count: 100});
 
+  //Adds the bot to the voice channel of whoever called it (Needs to have admin/mod)
+  if(command === "init") {
     //join the channel of whoever called this command
-    if (message.member.voiceChannel) {
-        message.member.voiceChannel.join()
-          .then(connection => { 
-            message.reply('I will play a song');
-            let dispatcher = connection.playArbitraryInput('http://openings.moe/video/Ending1-Konosuba.webm');
-            message.reply('Song playing');
-          })
-          .catch(console.log);
-      } else {
-        message.reply('You need to join a voice channel first!');
-      }
+    trivia.join(message);
+  }
+
+  if(command == "play"){
+    trivia.play(message);
   }
 });
 

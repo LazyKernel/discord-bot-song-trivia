@@ -133,14 +133,6 @@ binary-extensions@^1.0.0:
   version "1.11.0"
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-1.11.0.tgz#46aa1751fb6a2f93ee5e689bb1087d4b14c6c205"
 
-bindings@1:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/bindings/-/bindings-1.3.0.tgz#b346f6ecf6a95f5a815c5839fc7cdb22502f1ed7"
-
-bindings@~1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/bindings/-/bindings-1.2.1.tgz#14ad6113812d2d37d72e67b4cacb4bb726505f11"
-
 block-stream@*:
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/block-stream/-/block-stream-0.0.9.tgz#13ebfe778a03205cfe03751481ebb4b3300c126a"
@@ -289,7 +281,7 @@ combined-stream@1.0.6, combined-stream@^1.0.5, combined-stream@~1.0.5:
   dependencies:
     delayed-stream "~1.0.0"
 
-commander@^2.8.1, commander@^2.9.0:
+commander@^2.8.1:
   version "2.15.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.15.1.tgz#df46e867d0fc2aec66a34662b406a9ccafff5b0f"
 
@@ -358,7 +350,7 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-debug@2, debug@^2.2.0, debug@^2.3.3:
+debug@^2.2.0, debug@^2.3.3:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
   dependencies:
@@ -1098,7 +1090,7 @@ ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
 
-nan@2, nan@^2.3.0, nan@^2.3.2:
+nan@^2.3.0:
   version "2.10.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.10.0.tgz#96d0cd610ebd58d4b4de9cc0c6828cda99c7548f"
 
@@ -1118,16 +1110,6 @@ nanomatch@^1.2.9:
     regex-not "^1.0.0"
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
-
-node-opus@^0.2.7:
-  version "0.2.7"
-  resolved "https://registry.yarnpkg.com/node-opus/-/node-opus-0.2.7.tgz#5b726e29795b0b127b4c87e662d4de816840579c"
-  dependencies:
-    bindings "~1.2.1"
-    commander "^2.9.0"
-    nan "^2.3.2"
-  optionalDependencies:
-    ogg-packet "^1.0.0"
 
 node-pre-gyp@^0.6.39:
   version "0.6.39"
@@ -1226,17 +1208,15 @@ object.pick@^1.3.0:
   dependencies:
     isobject "^3.0.1"
 
-ogg-packet@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/ogg-packet/-/ogg-packet-1.0.0.tgz#45b885721ac8f7dd5cf22391d42106ae533ac678"
-  dependencies:
-    ref-struct "*"
-
 once@^1.3.0, once@^1.3.3:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/once/-/once-1.4.0.tgz#583b1aa775961d4b113ac17d9c50baef9dd76bd1"
   dependencies:
     wrappy "1"
+
+opusscript@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/opusscript/-/opusscript-0.0.6.tgz#cf492fc5fb2c819af296ae02eaa3cf210433c9ba"
 
 os-homedir@^1.0.0:
   version "1.0.2"
@@ -1373,21 +1353,6 @@ readdirp@^2.0.0:
     minimatch "^3.0.2"
     readable-stream "^2.0.2"
     set-immediate-shim "^1.0.1"
-
-ref-struct@*:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/ref-struct/-/ref-struct-1.1.0.tgz#5d5ee65ad41cefc3a5c5feb40587261e479edc13"
-  dependencies:
-    debug "2"
-    ref "1"
-
-ref@1:
-  version "1.3.5"
-  resolved "https://registry.yarnpkg.com/ref/-/ref-1.3.5.tgz#0e33f080cdb94a3d95312b2b3b1fd0f82044ca0f"
-  dependencies:
-    bindings "1"
-    debug "2"
-    nan "2"
 
 regex-not@^1.0.0, regex-not@^1.0.2:
   version "1.0.2"
