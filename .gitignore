@@ -1,3 +1,5 @@
 node_modules
 config.json
 to_ignore
+score.sqlite
+yarn-error.log

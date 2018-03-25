@@ -38,13 +38,15 @@ client.on("message", async message => {
   const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
   const command = args.shift().toLowerCase();
 
-  if (command === "reset") {
-    message.channel.send('Resetting...')
+  //kicks the bot out of the voice channel and reset it (mods only) also has some issues with rejoining room
+  if (command === "close"  && message.member.roles.some(r => ["Mod"].includes(r.name))) {
+    message.channel.send('Resetting bot: You might want to restart the server')
       .then(message => client.destroy())
       .then(() => {client.login(config.token)});
   }
 
-  if (command === "ping") {
+  //ping for mods only
+  if (command === "ping"  && message.member.roles.some(r => ["Mod"].includes(r.name))) {
     // Latency check
     //Round trip latency, average oneway websocket server latency
     const m = await message.channel.send("Ping?");
@@ -59,14 +61,23 @@ client.on("message", async message => {
     message.channel.send(sayMessage);
   }
 
+  if (command == "help"){
+    message.channel.send("Commands start with ~\n\n~play                 : starts the trivia\n~a [guess]       : guess the anime name\n~voteskip         : Vote to skip to next song");
+  }
+
   //Adds the bot to the voice channel of whoever called it (Needs to have role mod)
-  if (command === "init" || message.member.roles.some(r => ["Mod"].includes(r.name))) {
+  if (command === "init" && message.member.roles.some(r => ["Mod"].includes(r.name))) {
     //join the channel of whoever called this command
     trivia.join(message);
   }
 
   if (command == "play") {
-    trivia.play(message);
+    if(args[0] == undefined){
+      trivia.play(message, 10);
+    }else{
+      trivia.play(message, args[0]);
+    }
+
   }
 });
 
