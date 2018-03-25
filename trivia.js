@@ -6,27 +6,33 @@ sql.open("./score.sqlite");
 var answers = [];
 var playing = false;
 var count_times = 0;
-var song_data;
+var song_data = {
+  "animeName": "name",
+  "title": "title",
+  "filename": "file",
+};
+var answered = false;
+var skipVotes = 0;
 
 //add/update score to sqlite db
- function addScore(message){
-   sql.get(`SELECT * FROM scores WHERE userId = "${message.author.id}"`).then(row => {
+function addScore(message) {
+  sql.get(`SELECT * FROM scores WHERE userId = "${message.author.id}"`).then(row => {
     if (!row) { // Can't find the row.
       sql.run("INSERT INTO scores (userId, points, level) VALUES (?, ?, ?)", [message.author.id, 1, 0]);
     } else { // Can find the row.
       sql.run(`UPDATE scores SET points = ${row.points + 1} WHERE userId = ${message.author.id}`);
     }
     message.reply(`You now have ${row.points} points!`);
-    }).catch(() => {
+  }).catch(() => {
     console.error; // Gotta log those errors
     sql.run("CREATE TABLE IF NOT EXISTS scores (userId TEXT, points INTEGER, level INTEGER)").then(() => {
-    sql.run("INSERT INTO scores (userId, points, level) VALUES (?, ?, ?)", [message.author.id, 1, 0]);
+      sql.run("INSERT INTO scores (userId, points, level) VALUES (?, ?, ?)", [message.author.id, 1, 0]);
+    });
   });
-});
-} 
+}
 
 //get score for a user
-function getScore(message){
+function getScore(message) {
   sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
     if (!row) return message.reply("Couldn't get score");
     message.reply(`You have ${row.points} points!`);
@@ -71,19 +77,21 @@ const commands = {
     let dispatcher;
     playing = true;
     getAnswers();
-    if(count == undefined){
+    if (count == undefined) {
       count_times = 200;
-    }else{
-      count_times = count; 
+    } else {
+      count_times = count;
     }
 
     (function play(nothing) {
       trivia = getTrivia();
       song_data = trivia;
+      answered = false;
+      skipVotes = 0;
       console.log(trivia)
       //dispatcher = msg.guild.voiceConnection.playFile("./to_ignore/songs/" + trivia.filename + ".mp3");
       dispatcher = msg.guild.voiceConnection.playArbitraryInput("http://openings.moe/video/" + trivia.filename);
-      msg.channel.send("New song! Make a guess!\nSongs in Queue: "+ count_times);
+      msg.channel.send("New song! Make a guess!\nSongs in Queue: " + count_times);
       console.log("Song is from :" + trivia.animeName);
 
       //msg.channel.send('New song! Which one is it\n\n\n' + trivia.options.map((x, i)=> ` ${i+1}: [${x}] `));
@@ -103,40 +111,55 @@ const commands = {
           msg.channel.send(`The song is from ${trivia.filename}`);
         } else if (m.content.startsWith(config.prefix + 'skip') && isMod) {
           msg.channel.send('skipping').then(() => { dispatcher.end(); });
+        }else if (m.content.startsWith(config.prefix + 'voteskip')) {
+          //vote skips if at x ppl vote
+          skipVotes++;
+          if(skipVotes >= 2){
+            skipVotes = 0;
+            msg.channel.send('Vote Skip Success').then(() => { dispatcher.end(); });
+          }else{
+            msg.channel.send(`You need ${2} votes to skip. There are ${skipVotes} right now`);
+          }
         } else if (m.content.startsWith(config.prefix + 'end') && isMod) {
           playing = false;
           msg.channel.send('Ending').then(() => { dispatcher.end(); });
         } else if (m.content.startsWith(config.prefix + 'score')) {
           getScore(m);
-        }else if (m.content.startsWith(config.prefix + 'count')) {
+        } else if (m.content.startsWith(config.prefix + 'count')) {
           msg.channel.send(`There are still ${count_times} left`);
-        }else if (m.content.startsWith(config.prefix + 'a ')) {
+        } else if (m.content.startsWith(config.prefix + 'a ')) {
           //parse args
           const query = m.content.slice(config.prefix.length + 1).trim();
           console.log(query);
+
+          //if already answered
+          if(answered){
+            msg.reply(`Sorry this song has already been answered!`);
+            return;
+          }
+
           //at least 4 chars long
-          if(query.length >= 4){
+          if (query.length >= 4) {
             let pattern = new RegExp(query);
             let matches = answers.filter(x => x.match(pattern));
             console.log(matches);
             console.log(trivia.animeName);
-            if(matches.includes(trivia.animeName.toLowerCase())){
-              msg.channel.send('You got it right! The anime is called: ' + trivia.animeName )
-              .then(addScore(m)).then(() => { dispatcher.end(); });
+            if (matches.includes(trivia.animeName.toLowerCase())) {
+              msg.channel.send('You got it right! The anime is called: ' + trivia.animeName).then(addScore(m));
             }
+            answered = true;
           }
         }
       });
       dispatcher.on('end', () => {
         collector.stop();
-        msg.channel.send('The most recent song was from: ' + song_data.song);
+        msg.channel.send('The most recent song was from: ' + song_data.animeName);
         count_times -= 1;
-        msg.channel.send('Songs left in queue ' + count_times);
         if (count_times > 0) {
-          dispatcher = null;  
+          dispatcher = null;
           play("");
-        }else{
-          dispatcher = null;  
+        } else {
+          dispatcher = null;
           msg.channel.send('Played all the songs in Queue. Send "~play [count]" to play again');
           playing = false;
         }
@@ -144,7 +167,7 @@ const commands = {
       dispatcher.on('error', (err) => {
         return msg.channel.send('error: ' + err).then(() => {
           console.log(err);
-          dispatcher = null;  
+          dispatcher = null;
           playing = false;
           collector.stop();
           dispatcher.end();
