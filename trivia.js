@@ -134,7 +134,7 @@ const commands = {
 
           //if already answered
           if(answered){
-            msg.reply(`Sorry this song has already been answered!`);
+            msg.channel.send(`Sorry this song has already been answered!`);
             return;
           }
 
@@ -145,9 +145,13 @@ const commands = {
             console.log(matches);
             console.log(trivia.animeName);
             if (matches.includes(trivia.animeName.toLowerCase())) {
+              answered = true;
               msg.channel.send('You got it right! The anime is called: ' + trivia.animeName).then(addScore(m));
+            }else{
+              msg.channel.send(`Sorry that answer is wrong`);
             }
-            answered = true;
+          }else{
+            msg.channel.send(`Sorry that answer is wrong`);
           }
         }
       });
@@ -178,7 +182,7 @@ const commands = {
   'join': (msg) => {
     return new Promise((resolve, reject) => {
       const voiceChannel = msg.member.voiceChannel;
-      if (!voiceChannel || voiceChannel.type !== 'voice') return msg.reply('You have to be in a voice channel!');
+      if (!voiceChannel || voiceChannel.type !== 'voice' || voiceChannel.name != "anime-song-trivia") return msg.reply('You have to be in a voice channel called anime-song-trivia');
       voiceChannel.join().then(connection => resolve(connection)).catch(err => reject(err));
     });
   },
