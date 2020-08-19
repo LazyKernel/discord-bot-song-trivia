@@ -34,7 +34,7 @@ function addScore(message) {
 //get score for a user
 function getScore(message) {
   sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
-    if (!row) return message.reply("Couldn't get score");
+    if (!row) return message.reply("You have 0 points.");
     message.reply(`You have ${row.points} points!`);
   });
 }
@@ -121,8 +121,6 @@ const commands = {
         } else if (m.content.startsWith(config.prefix + 'end') && isMod) {
           playing = false;
           msg.channel.send('Ending').then(() => { dispatcher.end(); });
-        } else if (m.content.startsWith(config.prefix + 'score')) {
-          getScore(m);
         } else if (m.content.startsWith(config.prefix + 'count')) {
           msg.channel.send(`There are still ${count_times} left`);
         } else if (m.content.startsWith(config.prefix + 'a ')) {
@@ -187,6 +185,9 @@ const commands = {
   },
   'reset': () => {
     playing = false;
+  },
+  'getScore': (msg) => {
+    getScore(msg);
   }
 };
 

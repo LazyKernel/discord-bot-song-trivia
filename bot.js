@@ -98,6 +98,10 @@ ${config.prefix}set           : Sets the current channel as the bot channel (Mod
     }
 
   }
+
+  if (command == "score") {
+    trivia.getScore(message);
+  }
 });
 
 client.login(config.token);
