@@ -73,13 +73,15 @@ client.on("message", async message => {
   }
 
   if (command == "help"){
-    message.channel.send(`Commands start with ~\n\n
-    ~play             : starts the trivia in the current channel\n
-    ~a [guess]        : guess the anime name\n
-    ~score            : Shows your score\n
-    ~voteskip          : Vote to skip to next song\n
-    ~close           : Ejects the bot from the channel (Mod only/requires server restart)\n
-    ~set           : Sets the current channel as the bot channel (Mod only)  `);
+    message.channel.send(`\`\`\`\n
+    Commands start with ${config.prefix}\n\n
+    ${config.prefix}play          : starts the trivia in the current channel\n
+    ${config.prefix}a [guess]     : guess the anime name\n
+    ${config.prefix}score         : Shows your score\n
+    ${config.prefix}voteskip      : Vote to skip to next song\n
+    ${config.prefix}close         : Ejects the bot from the channel (Mod only/requires server restart)\n
+    ${config.prefix}set           : Sets the current channel as the bot channel (Mod only)\n 
+    \`\`\``);
   }
 
   //Adds the bot to the voice channel of whoever called it (Needs to have role mod)

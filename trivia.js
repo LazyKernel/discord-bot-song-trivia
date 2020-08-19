@@ -59,12 +59,11 @@ function getTrivia() {
     randAnime = Math.floor((Math.random() * total) + 1);
   }
   const newAnime = animelist[randAnime];
-  const newAnimeName = newAnime["source"];
 
   data = {
     "animeName": newAnime["source"],
     "title": newAnime["song"]["full"] || newAnime["title"],
-    "filename": animelist[randAnime]["file"],
+    "filename": newAnime["file"],
   };
 
   return data;
@@ -90,7 +89,7 @@ const commands = {
       skipVotes = 0;
       console.log(trivia)
       //dispatcher = msg.guild.voiceConnection.playFile("./to_ignore/songs/" + trivia.filename + ".mp3");
-      dispatcher = voiceConnection.playArbitraryInput("http://openings.moe/" + trivia.filename);
+      dispatcher = voiceConnection.playArbitraryInput("https://openings.moe/" + trivia.filename);
       msg.channel.send("New song! Make a guess!\nSongs in Queue: " + count_times);
       console.log("Song is from :" + trivia.animeName);
 
@@ -146,7 +145,7 @@ const commands = {
             console.log(trivia.animeName);
             if (matches.includes(trivia.animeName.toLowerCase())) {
               answered = true;
-              msg.channel.send('You got it right! The anime is called: ' + trivia.animeName).then(addScore(m));
+              msg.channel.send(`You got it right! The song was ${song_data.title} from: ${song_data.animeName}`).then(addScore(m));
             }else{
               msg.channel.send(`Sorry that answer is wrong`);
             }
@@ -157,7 +156,7 @@ const commands = {
       });
       dispatcher.on('end', () => {
         collector.stop();
-        msg.channel.send('The most recent song was from: ' + song_data.animeName);
+        msg.channel.send(`The most recent song was ${song_data.title} from: ${song_data.animeName}`);
         count_times -= 1;
         if (count_times > 0) {
           dispatcher = null;
