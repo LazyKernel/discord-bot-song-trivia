@@ -22,7 +22,7 @@ function addScore(message) {
     } else { // Can find the row.
       sql.run(`UPDATE scores SET points = ${row.points + 1} WHERE userId = ${message.author.id}`);
     }
-    message.reply(`You now have ${row.points} points!`);
+    message.reply(`You now have ${row.points + 1} points!`);
   }).catch(() => {
     console.error; // Gotta log those errors
     sql.run("CREATE TABLE IF NOT EXISTS scores (userId TEXT, points INTEGER, level INTEGER)").then(() => {
