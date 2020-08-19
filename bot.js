@@ -39,7 +39,7 @@ client.on("message", async message => {
   const command = args.shift().toLowerCase();
 
   //sets the text channel for the bot be active in
-  if(command === "set" && message.member.roles.some(r => ["Mod"].includes(r.name))){
+  if(command === "set" && message.member.roles.some(r => config.roles.includes(r.name))){
     console.log("Channel set");
     chatID = message.channel.id;
     message.channel.send('I have been set to this channel');
@@ -50,14 +50,14 @@ client.on("message", async message => {
 
 
   //kicks the bot out of the voice channel and reset it (mods only) also has some issues with rejoining room
-  if (command === "close"  && message.member.roles.some(r => ["Mod"].includes(r.name))) {
+  if (command === "close"  && message.member.roles.some(r => config.roles.includes(r.name))) {
     message.channel.send('Resetting bot: You might want to restart the server')
       .then(message => client.destroy())
       .then(() => {client.login(config.token)});
   }
 
   //ping for mods only
-  if (command === "ping"  && message.member.roles.some(r => ["Mod"].includes(r.name))) {
+  if (command === "ping"  && message.member.roles.some(r => config.roles.includes(r.name))) {
     // Latency check
     //Round trip latency, average oneway websocket server latency
     const m = await message.channel.send("Ping?");
@@ -83,7 +83,7 @@ client.on("message", async message => {
   }
 
   //Adds the bot to the voice channel of whoever called it (Needs to have role mod)
-  if (command === "init" && message.member.roles.some(r => ["Mod"].includes(r.name))) {
+  if (command === "init" && message.member.roles.some(r => config.roles.includes(r.name))) {
     //join the channel of whoever called this command
     trivia.join(message);
   }

@@ -98,7 +98,7 @@ const commands = {
       //Creates a collection of commands for the channel
       let collector = msg.channel.createCollector(m => m);
       collector.on('collect', m => {
-        let isMod = m.member.roles.some(r => ["Mod"].includes(r.name));
+        let isMod = m.member.roles.some(r => config.roles.includes(r.name));
         if (m.content.startsWith(config.prefix + 'pause') && isMod) {
           msg.channel.send('paused').then(() => { dispatcher.pause(); });
         } else if (m.content.startsWith(config.prefix + 'resume') && isMod) {
@@ -182,7 +182,7 @@ const commands = {
   'join': (msg) => {
     return new Promise((resolve, reject) => {
       const voiceChannel = msg.member.voiceChannel;
-      if (!voiceChannel || voiceChannel.type !== 'voice' || voiceChannel.name != "anime-song-trivia") return msg.reply('You have to be in a voice channel called anime-song-trivia');
+      if (!voiceChannel || voiceChannel.type !== 'voice') return msg.reply('You have to be in a voice channel');
       voiceChannel.join().then(connection => resolve(connection)).catch(err => reject(err));
     });
   },
