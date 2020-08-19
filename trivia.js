@@ -71,8 +71,8 @@ function getTrivia() {
 }
 
 const commands = {
-  'play': (msg, count) => {
-    if (!msg.guild.voiceConnection) return commands.join(msg).then(() => commands.play(msg));
+  'play': (msg, count, voiceConnection) => {
+    if (!msg.guild.voiceConnection) return commands.join(msg).then((connection) => commands.play(msg, undefined, connection));
     if (playing) return msg.channel.send('Already Playing');
     let dispatcher;
     playing = true;
@@ -90,7 +90,7 @@ const commands = {
       skipVotes = 0;
       console.log(trivia)
       //dispatcher = msg.guild.voiceConnection.playFile("./to_ignore/songs/" + trivia.filename + ".mp3");
-      dispatcher = msg.member.voiceChannel.connection.playArbitraryInput("http://openings.moe/video/" + trivia.filename);
+      dispatcher = voiceConnection.playArbitraryInput("http://openings.moe/video/" + trivia.filename);
       msg.channel.send("New song! Make a guess!\nSongs in Queue: " + count_times);
       console.log("Song is from :" + trivia.animeName);
 
