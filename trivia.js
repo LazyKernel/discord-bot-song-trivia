@@ -71,12 +71,12 @@ function getTrivia() {
 
 const commands = {
   'play': (msg, count, voiceConnection) => {
-    if (!msg.guild.voiceConnection) return commands.join(msg).then((connection) => commands.play(msg, undefined, connection));
+    if (!msg.guild.voiceConnection) return commands.join(msg).then((connection) => commands.play(msg, count, connection));
     if (playing) return msg.channel.send('Already Playing');
     let dispatcher;
     playing = true;
     getAnswers();
-    if (count == undefined) {
+    if (count === undefined) {
       count_times = 10;
     } else {
       count_times = count;
@@ -87,11 +87,10 @@ const commands = {
       song_data = trivia;
       answered = false;
       skipVotes = 0;
-      console.log(trivia)
+
       //dispatcher = msg.guild.voiceConnection.playFile("./to_ignore/songs/" + trivia.filename + ".mp3");
       dispatcher = voiceConnection.playArbitraryInput("https://openings.moe/video/" + trivia.filename + ".webm");
       msg.channel.send("New song! Make a guess!\nSongs in Queue: " + count_times);
-      console.log("Song is from :" + trivia.animeName);
 
       //msg.channel.send('New song! Which one is it\n\n\n' + trivia.options.map((x, i)=> ` ${i+1}: [${x}] `));
       //Creates a collection of commands for the channel
@@ -141,8 +140,7 @@ const commands = {
           if (query.length >= 4) {
             let pattern = new RegExp(query);
             let matches = answers.filter(x => x.match(pattern));
-            console.log(matches);
-            console.log(trivia.animeName);
+
             if (matches.includes(trivia.animeName.toLowerCase())) {
               answered = true;
               msg.channel.send(`You got it right! The song was ${song_data.title} from: ${song_data.animeName}`).then(addScore(m));

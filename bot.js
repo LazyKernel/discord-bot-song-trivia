@@ -37,8 +37,6 @@ client.on("message", async message => {
   // Seperate commands into args
   const args = message.content.slice(config.prefix.length).trim().split(' ');
   const command = args.shift().toLowerCase();
-  console.log(command)
-  console.log(args)
 
   //sets the text channel for the bot be active in
   if(command === "set" && message.member.roles.some(r => config.roles.includes(r.name))){
@@ -93,7 +91,7 @@ ${config.prefix}set           : Sets the current channel as the bot channel (Mod
   }
 
   if (command == "play") {
-    if(args[0] == undefined){
+    if(!args[0]){
       trivia.play(message, 10);
     }else{
       trivia.play(message, args[0]);
