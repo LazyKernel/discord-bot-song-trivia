@@ -35,8 +35,10 @@ client.on("message", async message => {
   if (message.content.indexOf(config.prefix) !== 0) return;
 
   // Seperate commands into args
-  const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
+  const args = message.content.slice(config.prefix.length).trim().split(' ');
   const command = args.shift().toLowerCase();
+  console.log(command)
+  console.log(args)
 
   //sets the text channel for the bot be active in
   if(command === "set" && message.member.roles.some(r => config.roles.includes(r.name))){
@@ -74,14 +76,14 @@ client.on("message", async message => {
 
   if (command == "help"){
     message.channel.send(`\`\`\`\n
-    Commands start with ${config.prefix}\n\n
-    ${config.prefix}play          : starts the trivia in the current channel\n
-    ${config.prefix}a [guess]     : guess the anime name\n
-    ${config.prefix}score         : Shows your score\n
-    ${config.prefix}voteskip      : Vote to skip to next song\n
-    ${config.prefix}close         : Ejects the bot from the channel (Mod only/requires server restart)\n
-    ${config.prefix}set           : Sets the current channel as the bot channel (Mod only)\n 
-    \`\`\``);
+Commands start with ${config.prefix}\n\n
+${config.prefix}play          : starts the trivia in the current channel\n
+${config.prefix}a [guess]     : guess the anime name\n
+${config.prefix}score         : Shows your score\n
+${config.prefix}voteskip      : Vote to skip to next song\n
+${config.prefix}close         : Ejects the bot from the channel (Mod only/requires server restart)\n
+${config.prefix}set           : Sets the current channel as the bot channel (Mod only)\n 
+\`\`\``);
   }
 
   //Adds the bot to the voice channel of whoever called it (Needs to have role mod)
