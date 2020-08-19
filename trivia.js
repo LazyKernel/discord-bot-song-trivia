@@ -63,7 +63,7 @@ function getTrivia() {
 
   data = {
     "animeName": newAnime["source"],
-    "title": newAnime["title"],
+    "title": newAnime["song"]["full"] || newAnime["title"],
     "filename": animelist[randAnime]["file"],
   };
 
@@ -78,7 +78,7 @@ const commands = {
     playing = true;
     getAnswers();
     if (count == undefined) {
-      count_times = 200;
+      count_times = 10;
     } else {
       count_times = count;
     }
@@ -90,7 +90,7 @@ const commands = {
       skipVotes = 0;
       console.log(trivia)
       //dispatcher = msg.guild.voiceConnection.playFile("./to_ignore/songs/" + trivia.filename + ".mp3");
-      dispatcher = voiceConnection.playArbitraryInput("http://openings.moe/video/" + trivia.filename);
+      dispatcher = voiceConnection.playArbitraryInput("http://openings.moe/" + trivia.filename);
       msg.channel.send("New song! Make a guess!\nSongs in Queue: " + count_times);
       console.log("Song is from :" + trivia.animeName);
 
