@@ -90,7 +90,7 @@ const commands = {
       skipVotes = 0;
       console.log(trivia)
       //dispatcher = msg.guild.voiceConnection.playFile("./to_ignore/songs/" + trivia.filename + ".mp3");
-      dispatcher = msg.guild.voiceConnection.playArbitraryInput("http://openings.moe/video/" + trivia.filename);
+      dispatcher = msg.member.voiceChannel.play("http://openings.moe/video/" + trivia.filename);
       msg.channel.send("New song! Make a guess!\nSongs in Queue: " + count_times);
       console.log("Song is from :" + trivia.animeName);
 
