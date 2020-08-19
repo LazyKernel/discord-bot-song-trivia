@@ -89,7 +89,7 @@ const commands = {
       skipVotes = 0;
       console.log(trivia)
       //dispatcher = msg.guild.voiceConnection.playFile("./to_ignore/songs/" + trivia.filename + ".mp3");
-      dispatcher = voiceConnection.playArbitraryInput("https://openings.moe/" + trivia.filename);
+      dispatcher = voiceConnection.playArbitraryInput("https://openings.moe/video/" + trivia.filename + ".webm");
       msg.channel.send("New song! Make a guess!\nSongs in Queue: " + count_times);
       console.log("Song is from :" + trivia.animeName);
 
@@ -163,8 +163,9 @@ const commands = {
           play("");
         } else {
           dispatcher = null;
-          msg.channel.send('Played all the songs in Queue. Send "~play [count]" to play again');
+          msg.channel.send(`Played all the songs in Queue. Send "${config.prefix}play [count]" to play again`);
           playing = false;
+          voiceConnection.channel.leave();
         }
       });
       dispatcher.on('error', (err) => {
@@ -174,6 +175,7 @@ const commands = {
           playing = false;
           collector.stop();
           dispatcher.end();
+          voiceConnection.channel.leave();
         });
       });
     })("");
